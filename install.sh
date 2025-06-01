@@ -10,15 +10,11 @@ HOSTNAME="CRT OS"
 USERNAME=guybrush
 USERPASSWORD=changeme
 ROOTPASSWORD=changeme
-DISK=SDA
 
-*
-* Initialisation password ROOT
-*
-echo $rootpassword | passwd root --stdin
-
-# Vérification mode boot
-biosboot=$(cat /sys/firmware/efi/fw_platform_size)
+#
+# Initialisation password ROOT
+#
+# echo $ROOTPASSWORD | passwd root --stdin
 
 #
 # Language clavier
@@ -26,43 +22,22 @@ biosboot=$(cat /sys/firmware/efi/fw_platform_size)
 loadkeys $LANGAGE
 
 #
+# Initialisation connection internet
+#
+networkcheck() {
+    ping -c 2 voidlinux.org > /dev/null && return 0 || return 1
+}
+
+printf "Checking Connection: "; networkcheck && ok || failexit ; sleep 0.4
+
+#
 # Initialisation du temps
 #
 timedatectl set-ntp true
 timedatectl
 
-# Create GPT
-parted $DISK mklabel gpt
-# 100M EFI partition
-parted $DISK mkpart primary fat32 1MiB 101MiB
-parted $DISK set 1 esp on
-# 512M boot partition
-parted $DISK mkpart primary ext4 101MiB 613MiB
-# Remaining space for LUKS ext4
-parted $DISK mkpart primary ext4 613MiB 100%
-# Format partitions
-mkfs.fat -F32 ${DISK}1
-mkfs.ext4 ${DISK}2
-mkfs.ext4 ${DISK}3
+read -s -n 1
 
-# Mount partitions
-mount /dev/vg0/root /mnt
-mount --mkdir ${DISK}1 /mnt/efi
-mount --mkdir ${DISK}2 /mnt/boot
-mount --mkdir /dev/vg0/home /mnt/home
-swapon /dev/vg0/swap
-
-#
-# Install base system
-# - marvell firmware is added for better compatility with Marvell wireless controllers
-# - intel-ucode and amd-ucode both are included to ensure both AMD and Intel CPUs are supported
-# - git, mtools, and reflector are included for convenience
-#
-pacstrap -K /mnt base base-devel linux linux-headers linux-firmware linux-firmware-marvell intel-ucode amd-ucode mtools reflector dosfstools git
-# Generate fstab
-genfstab -U /mnt >> /mnt/etc/fstab
-# record root disk UUID
-ROOT_DISK_UUID=$(blkid -s UUID -o value ${DISK}3)
 # Chroot into new system
 arch-chroot /mnt /bin/bash <<EOF
 #
