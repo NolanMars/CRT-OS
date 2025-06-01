@@ -1,12 +1,24 @@
+#!/bin/bash
+#
+echo "Bienvenue sur l'installation de CRT OS"
+
 #
 # Variables
 #
-LANGAGE=$langage
-HOSTNAME=$hostname
-USERNAME=$username
-PASSWORD=$password
-DISK=$disk
-ROOT_SIZE=$root_size
+LANGAGE=fr
+HOSTNAME="CRT OS"
+USERNAME=guybrush
+USERPASSWORD=changeme
+ROOTPASSWORD=changeme
+DISK=SDA
+
+*
+* Initialisation password ROOT
+*
+echo $rootpassword | passwd root --stdin
+
+# Vérification mode boot
+biosboot=$(cat /sys/firmware/efi/fw_platform_size)
 
 #
 # Language clavier
@@ -18,14 +30,6 @@ loadkeys $LANGAGE
 #
 timedatectl set-ntp true
 timedatectl
-
-#
-# Setup partition on the disk
-# The partition layout is as follows:
-# 1. 100M EFI partition
-# 2. 512M boot partition
-# 3. Remaining space for LUKS
-#
 
 # Create GPT
 parted $DISK mklabel gpt
@@ -41,30 +45,6 @@ mkfs.fat -F32 ${DISK}1
 mkfs.ext4 ${DISK}2
 mkfs.ext4 ${DISK}3
 
-#
-# Setup LUKS
-#
-echo -e $LUKS_PASSPHRASE | cryptsetup --use-random -q luksFormat ${DISK}3
-echo -e $LUKS_PASSPHRASE | cryptsetup luksOpen ${DISK}3 cryptlvm
-
-#
-# Setup LVM for the system
-# The LVM layout is as follows:
-# 1. swap
-# 2. root
-# 3. home
-#
-
-pvcreate /dev/mapper/cryptlvm
-vgcreate vg0 /dev/mapper/cryptlvm
-# Create LVs
-lvcreate -L $SWAP_SIZE -n swap vg0
-lvcreate -L $ROOT_SIZE -n root vg0
-lvcreate -l 100%FREE -n home vg0
-# Format LVs
-mkswap /dev/vg0/swap
-mkfs.ext4 /dev/vg0/root
-mkfs.ext4 /dev/vg0/home
 # Mount partitions
 mount /dev/vg0/root /mnt
 mount --mkdir ${DISK}1 /mnt/efi
