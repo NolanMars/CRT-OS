@@ -6,7 +6,7 @@ echo "Bienvenue sur l'installation de CRT OS"
 # Variables
 #
 LANGAGE=fr
-HOSTNAME="CRT OS"
+HOSTNAME="CRT-OS"
 USERNAME=guybrush
 USERPASSWORD=changeme
 ROOTPASSWORD=changeme
