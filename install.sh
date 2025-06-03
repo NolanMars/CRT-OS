@@ -1,10 +1,18 @@
 #!/bin/bash
 #
+
+# Variables
+#
+LANGAGE=fr
+HOSTNAME="CRT-OS"
+USERNAME=guybrush
+USERPASSWORD=changeme
+ROOTPASSWORD=changeme
 function __main() {
 
-    clear
+clear
     
-    cat <<\EOF
+cat <<\EOF
  
  ██████╗██████╗ ████████╗     ██████╗ ███████╗
 ██╔════╝██╔══██╗╚══██╔══╝    ██╔═══██╗██╔════╝
