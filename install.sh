@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# LOGO #
+#
+
 clear
     
 cat <<\EOF
@@ -21,8 +25,9 @@ EOF
 __main $*
 
 #
-# Variables
+# Variables #
 #
+
 LANGAGE=fr
 HOSTNAME="CRT-OS"
 USERNAME=guybrush
