@@ -1,15 +1,5 @@
 #!/bin/bash
 #
-
-# Variables
-#
-LANGAGE=fr
-HOSTNAME="CRT-OS"
-USERNAME=guybrush
-USERPASSWORD=changeme
-ROOTPASSWORD=changeme
-function __main() {
-
 clear
     
 cat <<\EOF
