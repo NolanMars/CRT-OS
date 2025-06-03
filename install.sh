@@ -1,11 +1,18 @@
 #!/bin/bash
 
-#
-# LOGO #
-#
+#############
+# Variables #
+#############
+LANGAGE=fr
+HOSTNAME="CRT-OS"
+USERNAME=guybrush
+USERPASSWORD=changeme
+ROOTPASSWORD=changeme
 
+########
+# LOGO #
+########
 clear
-    
 cat << "EOF"
  
  ██████╗██████╗ ████████╗     ██████╗ ███████╗
@@ -18,15 +25,7 @@ cat << "EOF"
 
 EOF
     
-#
-# Variables #
-#
 
-LANGAGE=fr
-HOSTNAME="CRT-OS"
-USERNAME=guybrush
-USERPASSWORD=changeme
-ROOTPASSWORD=changeme
 
 #
 # Initialisation password ROOT
@@ -39,10 +38,28 @@ echo $ROOTPASSWORD | passwd root --stdin
 loadkeys $LANGAGE
 
 #
+# Confirmation lancement installation
+#
+read -p "Lancer l'installation de CRT OS ? " on
+
+case $on in 
+	oui ) echo ok, we will proceed;;
+	non ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 1;;
+esac
+
+#
 # Initialisation du temps
 #
 timedatectl set-ntp true
 timedatectl
+
+#
+#  Initialisation du disque
+#
+
 
 read -s -n 1
 
