@@ -1,8 +1,31 @@
 #!/bin/bash
 #
-clear
+function __main() {
 
-echo "Bienvenue sur l'installation de CRT OS"
+    clear
+    
+    cat <<\EOF
+ 
+ ██████╗██████╗ ████████╗     ██████╗ ███████╗
+██╔════╝██╔══██╗╚══██╔══╝    ██╔═══██╗██╔════╝
+██║     ██████╔╝   ██║       ██║   ██║███████╗
+██║     ██╔══██╗   ██║       ██║   ██║╚════██║
+╚██████╗██║  ██║   ██║       ╚██████╔╝███████║
+ ╚═════╝╚═╝  ╚═╝   ╚═╝        ╚═════╝ ╚══════╝
+                                              
+
+EOF
+    printf "%s\n\n" "(c) Copyright ..."
+
+#
+# Initialisation password ROOT
+#
+echo $ROOTPASSWORD | passwd root --stdin
+
+    return 0
+}
+
+__main $*
 
 #
 # Variables
