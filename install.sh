@@ -13,12 +13,7 @@ cat <<\EOF
                                               
 
 EOF
-    printf "%s\n\n" "(c) Copyright ..."
-
-#
-# Initialisation password ROOT
-#
-echo $ROOTPASSWORD | passwd root --stdin
+    printf "%s\n\n" "Install version 1.0"
 
     return 0
 }
