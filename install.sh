@@ -17,13 +17,7 @@ cat <<\EOF
                                               
 
 EOF
-    printf "%s\n\n" "Install version 1.0"
-
-    return 0
-}
-
-__main $*
-
+    
 #
 # Variables #
 #
