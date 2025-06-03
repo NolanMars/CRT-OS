@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+clear
+
 echo "Bienvenue sur l'installation de CRT OS"
 
 #
@@ -14,21 +16,12 @@ ROOTPASSWORD=changeme
 #
 # Initialisation password ROOT
 #
-# echo $ROOTPASSWORD | passwd root --stdin
+echo $ROOTPASSWORD | passwd root --stdin
 
 #
 # Language clavier
 #
 loadkeys $LANGAGE
-
-#
-# Initialisation connection internet
-#
-networkcheck() {
-    ping -c 2 voidlinux.org > /dev/null && return 0 || return 1
-}
-
-printf "Checking Connection: "; networkcheck && ok || failexit ; sleep 0.4
 
 #
 # Initialisation du temps
