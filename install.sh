@@ -40,6 +40,14 @@ loadkeys $LANGAGE
 #
 bootmode=$(cat /sys/firmware/efi/fw_platform_size)
 
+if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]
+then
+echo "uefi"
+else
+echo "ko"
+
+read -s -n 1
+
 #
 #  Initialisation du disque
 #
@@ -51,7 +59,14 @@ echo "Sur quel disque installer CRT OS ?"
 
 read disque
 
-wipefs -a /dev/$disque
+wipefs -a -f /dev/$disque
+
+if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]
+then
+echo "ok"
+else
+echo "ko"
+read -s -n 1
 
 sfdisk /dev/$disque << EOF
 label: gpt
@@ -60,11 +75,9 @@ label: gpt
 write
 EOF
 
-read -s -n 1
-
 mkfs.vfat /dev/"$disque"1
-
 mkfs.ext4 /dev/"$disque"2
+else
 
 read -s -n 1
 
