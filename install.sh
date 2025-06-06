@@ -40,6 +40,8 @@ loadkeys $LANGAGE
 #
 bootmode=$(cat /sys/firmware/efi/fw_platform_size)
 
+echo "$bootmode"
+
 if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]
 then
 echo "uefi"
