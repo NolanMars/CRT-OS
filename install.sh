@@ -68,6 +68,7 @@ then
 echo "ok"
 else
 echo "ko"
+fi
 read -s -n 1
 
 sfdisk /dev/$disque << EOF
