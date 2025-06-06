@@ -24,8 +24,6 @@ cat << "EOF"
                                               
 
 EOF
-    
-
 
 #
 # Initialisation password ROOT
@@ -38,28 +36,20 @@ echo $ROOTPASSWORD | passwd root --stdin
 loadkeys $LANGAGE
 
 #
-# Confirmation lancement installation
+# Detection boot bios/UEFI
 #
-read -p "Lancer l'installation de CRT OS ? " on
-
-case $on in 
-	oui ) echo ok, we will proceed;;
-	non ) echo exiting...;
-		exit;;
-	* ) echo invalid response;
-		exit 1;;
-esac
-
-#
-# Initialisation du temps
-#
-timedatectl set-ntp true
-timedatectl
+bootmode=$(cat /sys/firmware/efi/fw_platform_size)
 
 #
 #  Initialisation du disque
 #
+lsblk -e7
 
+echo "Sur quel disque installer CRT OS ?"
+
+read disque
+
+wipefs -a /dev/$disque
 
 read -s -n 1
 
