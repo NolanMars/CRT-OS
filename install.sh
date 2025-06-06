@@ -45,11 +45,28 @@ bootmode=$(cat /sys/firmware/efi/fw_platform_size)
 #
 lsblk -e7
 
+echo ""
+
 echo "Sur quel disque installer CRT OS ?"
 
 read disque
 
 wipefs -a /dev/$disque
+
+sfdisk /dev/$disque << EOF
+label: gpt
+,1G,U
+;
+write
+EOF
+
+read -s -n 1
+
+lsblk -e7
+
+mkfs.vfat /dev/sdX1
+
+mkfs.ext4 /dev/sdX2
 
 read -s -n 1
 
