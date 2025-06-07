@@ -34,11 +34,9 @@ cat << "EOF"
 
 EOF
 
-echo "Version"
 echo -e "Version ${GREEN}$VERSION${NC}\n"
 
-echo "CPU"
-echo -e "${GREEN}$CPUVENDOR$CPUMODEL${NC}\n"
+echo -e "CPU ${GREEN}$CPUVENDOR $CPUMODEL${NC}\n"
 
 ############################
 # Test connection internet #
@@ -53,9 +51,8 @@ echo $ROOTPASSWORD | passwd root --stdin
 ####################
 # Language clavier #
 ####################
-echo "Langage"
 loadkeys $LANGAGE
-echo -e "${GREEN}$LANGAGE${NC}\n"
+echo -e "Langage ${GREEN}$LANGAGE${NC}\n"
 
 ##################################
 #  Initialisation du disque UEFI #
