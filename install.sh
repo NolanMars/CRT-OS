@@ -13,7 +13,7 @@ HOSTNAME="CRT-OS"
 USERNAME=guybrush
 USERPASSWORD=changeme
 ROOTPASSWORD=changeme
-CPUVENDOR=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p'
+CPUVENDOR=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p')
 BOOTMODE=$(cat /sys/firmware/efi/fw_platform_size)
 
 
