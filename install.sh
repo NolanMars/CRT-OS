@@ -75,9 +75,9 @@ echo ""
 
 read disque
 
-wipefs -a -f /dev/$disque
+wipefs -a -f -q /dev/$disque
 
-sfdisk /dev/$disque << EOF
+sfdisk -f -q /dev/$disque << EOF
 label: gpt
 ,1G,U
 ;
