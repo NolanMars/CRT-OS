@@ -95,6 +95,14 @@ echo -e "${RED}Installation sur BIOS legacy non pris en charge${NC}"
 
 fi
 
+mount /dev/"$disque"2 /mnt
+
+mount --mkdir /dev/"$disque"1 /mnt/boot
+
+pacstrap -K /mnt base linux linux-firmware
+
+genfstab -U /mnt >> /mnt/etc/fstab
+
 # Chroot into new system
 arch-chroot /mnt /bin/bash <<EOF
 #
