@@ -14,6 +14,7 @@ USERNAME=guybrush
 USERPASSWORD=changeme
 ROOTPASSWORD=changeme
 CPUVENDOR=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p')
+CPUMODEL=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p')
 BOOTMODE=$(cat /sys/firmware/efi/fw_platform_size)
 
 
@@ -34,10 +35,10 @@ cat << "EOF"
 EOF
 
 echo "Version"
-echo -e "${GREEN}$VERSION${NC}\n"
+echo -e "Version ${GREEN}$VERSION${NC}\n"
 
 echo "CPU"
-echo -e "${GREEN}$CPUVENDOR${NC}\n"
+echo -e "${GREEN}$CPUVENDOR$CPUMODEL${NC}\n"
 
 ############################
 # Test connection internet #
