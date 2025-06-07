@@ -25,33 +25,39 @@ cat << "EOF"
 
 EOF
 
-#
-# Initialisation password ROOT
-#
+############################
+# Test connection internet #
+############################
+
+
+################################
+# Initialisation password ROOT #
+################################
 echo $ROOTPASSWORD | passwd root --stdin
 
-#
-# Language clavier
-#
+####################
+# Language clavier #
+####################
 loadkeys $LANGAGE
 
-#
-# Detection boot bios/UEFI
-#
+############################
+# Detection boot bios/UEFI #
+############################
 bootmode=$(cat /sys/firmware/efi/fw_platform_size)
 
 echo "$bootmode"
 
-if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]
-echo "uefi"
-fi
-echo "ko"
-
+if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]; then
+ echo "uefi"
+ else
+ echo "ko"
+ fi
+ 
 read -s -n 1
 
-#
-#  Initialisation du disque
-#
+#############################
+#  Initialisation du disque #
+#############################
 lsblk -e7
 
 echo ""
