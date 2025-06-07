@@ -60,9 +60,7 @@ echo -e "Langage ${GREEN}$LANGAGE${NC}\n"
 
 if [ "$BOOTMODE" = "64" ] || [ "$BOOTMODE" = "32" ]; then
 
-echo "Boot Mode"
-
-echo -e "${GREEN}UEFI${NC}"
+echo -e "Boot Mode ${GREEN}UEFI${NC}"
 
 echo ""
 
