@@ -14,7 +14,7 @@ USERNAME=guybrush
 USERPASSWORD=changeme
 ROOTPASSWORD=changeme
 CPUVENDOR=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p')
-CPUMODEL=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p')
+CPUMODEL=$(lscpu | sed -n 's/Model name:[ \t]*//p')
 BOOTMODE=$(cat /sys/firmware/efi/fw_platform_size)
 
 
