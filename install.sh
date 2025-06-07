@@ -13,7 +13,8 @@ HOSTNAME="CRT-OS"
 USERNAME=guybrush
 USERPASSWORD=changeme
 ROOTPASSWORD=changeme
-CPU=$(lscpu | grep '^Vendor ID:')
+CPUVENDOR=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p'
+BOOTMODE=$(cat /sys/firmware/efi/fw_platform_size)
 
 
 ########
@@ -36,7 +37,7 @@ echo "Version"
 echo -e "${GREEN}$VERSION${NC}\n"
 
 echo "CPU"
-echo -e "${GREEN}$CPU${NC}\n"
+echo -e "${GREEN}$CPUVENDOR${NC}\n"
 
 ############################
 # Test connection internet #
@@ -59,9 +60,7 @@ echo -e "${GREEN}$LANGAGE${NC}\n"
 #  Initialisation du disque UEFI #
 ##################################
 
-bootmode=$(cat /sys/firmware/efi/fw_platform_size)
-
-if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]; then
+if [ "$BOOTMODE" = "64" ] || [ "$BOOTMODE" = "32" ]; then
 
 echo "Boot Mode"
 
