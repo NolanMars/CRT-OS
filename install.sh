@@ -7,6 +7,7 @@ NC='\033[0m'
 #############
 # Variables #
 #############
+VERSION="1.0"
 LANGAGE=fr
 HOSTNAME="CRT-OS"
 USERNAME=guybrush
@@ -30,6 +31,9 @@ cat << "EOF"
 
 EOF
 
+echo "Version"
+echo -e "${GREEN}$VERSION${NC}\n"
+
 ############################
 # Test connection internet #
 ############################
@@ -45,32 +49,31 @@ echo $ROOTPASSWORD | passwd root --stdin
 ####################
 echo "Langage"
 loadkeys $LANGAGE
-echo -e "${GREEN}$LANGAGE${NC}"
+echo -e "${GREEN}$LANGAGE${NC}\n"
 
 ##################################
 #  Initialisation du disque UEFI #
 ##################################
 
-echo "Installation du systeme"
+bootmode=$(cat /sys/firmware/efi/fw_platform_size)
+
+if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]; then
+
+echo "Boot Mode"
+
+echo -e "${GREEN}UEFI${NC}"
+
+echo ""
+
+echo "Selectionner le dique systeme"
+
+echo ""
  
 lsblk -e7
  
 echo ""
 
-echo "Choisir le disque de destination"
-
 read disque
-
-############################
-# Detection boot bios/UEFI #
-############################
-bootmode=$(cat /sys/firmware/efi/fw_platform_size)
-
-echo "Detection BIOS"
-
-if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]; then
-
-echo -e "${GREEN}UEFI${NC}"
 
 wipefs -a -f /dev/$disque
 
@@ -86,7 +89,9 @@ mkfs.ext4 /dev/"$disque"2
  
 else
  
-echo -e "${GREEN}BIOS${NC}"
+echo -e "${RED}BIOS${NC}"
+
+echo -e "${RED}Installation sur BIOS legacy non pris en charge${NC}"
 
 fi
 
