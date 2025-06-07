@@ -43,7 +43,23 @@ echo $ROOTPASSWORD | passwd root --stdin
 ####################
 # Language clavier #
 ####################
+echo "Langage"
 loadkeys $LANGAGE
+echo -e "${GREEN}$LANGAGE${NC}"
+
+##################################
+#  Initialisation du disque UEFI #
+##################################
+
+echo "Installation du systeme"
+ 
+lsblk -e7
+ 
+echo ""
+
+echo "Choisir le disque de destination"
+
+read disque
 
 ############################
 # Detection boot bios/UEFI #
@@ -53,33 +69,10 @@ bootmode=$(cat /sys/firmware/efi/fw_platform_size)
 echo "Detection BIOS"
 
 if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]; then
- echo "UEFI"
-else
- echo "ko"
- fi
- 
-read -s -n 1
 
-#############################
-#  Initialisation du disque #
-#############################
-lsblk -e7
-
-echo ""
-
-echo "Sur quel disque installer CRT OS ?"
-
-read disque
+echo -e "${GREEN}UEFI${NC}"
 
 wipefs -a -f /dev/$disque
-
-if [ "$bootmode" = "64" ] || [ "$bootmode" = "32" ]
-then
-echo "ok"
-else
-echo "ko"
-fi
-read -s -n 1
 
 sfdisk /dev/$disque << EOF
 label: gpt
@@ -90,9 +83,12 @@ EOF
 
 mkfs.vfat /dev/"$disque"1
 mkfs.ext4 /dev/"$disque"2
+ 
 else
+ 
+echo -e "${GREEN}BIOS${NC}"
 
-read -s -n 1
+fi
 
 # Chroot into new system
 arch-chroot /mnt /bin/bash <<EOF
