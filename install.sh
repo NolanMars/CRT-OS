@@ -97,12 +97,21 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo
+pacman -S --noconfirm nano sudo base-devel
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
+echo "KEYMAP=fr" > /etc/vconsole.conf
+echo "$HOSTNAME" > /etc/hostname
+systemctl enable systemd-networkd.service
+systemctl enable systemd-resolved.service
+systemctl start systemd-networkd.service
+systemctl start systemd-resolved.service
+
+mkdir ~/kernelbuild
+cd ~/kernelbuild
 
 exit
 EOF
