@@ -13,6 +13,10 @@ HOSTNAME="CRT-OS"
 USERNAME=guybrush
 USERPASSWORD=changeme
 ROOTPASSWORD=changeme
+
+#####################
+# Variables systeme #
+#####################
 CPUVENDOR=$(lscpu | sed -n 's/Vendor ID:[ \t]*//p')
 CPUMODEL=$(lscpu | sed -n 's/Model name:[ \t]*//p')
 BOOTMODE=$(cat /sys/firmware/efi/fw_platform_size)
@@ -35,7 +39,6 @@ cat << "EOF"
 EOF
 
 echo -e "Version ${GREEN}$VERSION${NC}\n"
-
 echo -e "CPU ${GREEN}$CPUVENDOR $CPUMODEL${NC}\n"
 
 ############################
@@ -57,23 +60,15 @@ echo -e "Langage ${GREEN}$LANGAGE${NC}\n"
 ##################################
 #  Initialisation du disque UEFI #
 ##################################
-
 if [ "$BOOTMODE" = "64" ] || [ "$BOOTMODE" = "32" ]; then
 
 echo -e "Boot Mode ${GREEN}UEFI${NC}"
-
 echo ""
-
 echo "Selectionner le dique systeme"
-
 echo ""
- 
 lsblk -e7
- 
 echo ""
-
 read disque
-
 wipefs -a -f -q /dev/$disque
 
 sfdisk -f -q /dev/$disque << EOF
@@ -89,27 +84,25 @@ mkfs.ext4 /dev/"$disque"2
 else
  
 echo -e "${RED}BIOS${NC}"
-
 echo -e "${RED}Installation sur BIOS legacy non pris en charge${NC}"
 
 fi
 
 mount /dev/"$disque"2 /mnt
-
 mount --mkdir /dev/"$disque"1 /mnt/boot
-
 pacstrap -K /mnt base
-
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Chroot into new system
+##########################
+# Chroot nouveau systeme #
+##########################
 arch-chroot /mnt /bin/bash <<EOF
-
-pacman -S nano sudo
-
+pacman -S --noconfirm nano sudo
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
-
 hwclock --systohc
+echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
+locale-gen
+echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
 
 exit
 EOF
