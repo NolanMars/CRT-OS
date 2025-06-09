@@ -78,7 +78,7 @@ label: gpt
 write
 EOF
 
-mkfs.vfat /dev/"$disque"1
+mkfs.vfat -F 32 /dev/"$disque"1
 mkfs.ext4 /dev/"$disque"2
  
 else
