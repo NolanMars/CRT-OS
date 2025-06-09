@@ -97,7 +97,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo base-devel
+pacman -S --noconfirm nano sudo base-devel linux linux-firmware
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
@@ -110,8 +110,9 @@ systemctl enable systemd-resolved.service
 systemctl start systemd-networkd.service
 systemctl start systemd-resolved.service
 
-mkdir ~/kernelbuild
-cd ~/kernelbuild
+bootctl install
+
+echo $ROOTPASSWORD | passwd root --stdin
 
 exit
 EOF
