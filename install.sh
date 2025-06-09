@@ -90,8 +90,8 @@ fi
 
 mount /dev/"$disque"2 /mnt
 mount --mkdir /dev/"$disque"1 /mnt/boot
+pacman -Sy
 pacman -Sy archlinux-keyring
-pacman -Syu
 pacstrap -K /mnt base
 genfstab -U /mnt >> /mnt/etc/fstab
 
