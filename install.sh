@@ -93,6 +93,7 @@ mount --mkdir /dev/"$disque"1 /mnt/boot
 pacman -Sy
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
+bootctl --esp-path=/mnt/boot install
 
 ##########################
 # Chroot nouveau systeme #
