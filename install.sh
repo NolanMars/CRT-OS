@@ -113,9 +113,5 @@ systemctl start systemd-resolved.service
 
 bootctl install
 
-echo $ROOTPASSWORD | passwd root --stdin
-
-exit
 EOF
-# Unmount partitions
-umount -R /mnt
+
