@@ -91,15 +91,14 @@ fi
 mount /dev/"$disque"2 /mnt
 mount --mkdir /dev/"$disque"1 /mnt/boot
 pacman -Sy
-pacman -Sy archlinux-keyring
-pacstrap -K /mnt base
+pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 
 ##########################
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo base-devel linux linux-firmware
+pacman -S --noconfirm nano sudo
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
