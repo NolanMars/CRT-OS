@@ -109,7 +109,20 @@ echo "$HOSTNAME" > /etc/hostname
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
 
-bootctl --variables=yes install
+bootctl install
+
+cat > /boot/loader/loader.conf <<EOF
+default arch
+timeout 3
+editor 0
+EOF
+
+cat > /boot/loader/entries/arch.conf <<EOF
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /initramfs-linux.img
+options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/"$disque"2) rw
+EOF
 
 EOF
 
