@@ -108,8 +108,6 @@ echo "KEYMAP=fr" > /etc/vconsole.conf
 echo "$HOSTNAME" > /etc/hostname
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
-systemctl start systemd-networkd.service
-systemctl start systemd-resolved.service
 
 efibootmgr --create --disk /dev/"$disque"2 --part Y --loader '\EFI\systemd\systemd-bootx64.efi' --label "Linux Boot Manager" --unicode
 
