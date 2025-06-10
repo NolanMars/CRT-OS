@@ -98,7 +98,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo
+pacman -S --noconfirm nano sudo efibootmgr
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
