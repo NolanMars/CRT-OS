@@ -109,7 +109,7 @@ echo "$HOSTNAME" > /etc/hostname
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
 
-bootctl --variables=no install
+bootctl --variables=yes install
 
 EOF
 
