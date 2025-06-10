@@ -93,7 +93,6 @@ mount --mkdir /dev/"$disque"1 /mnt/boot
 pacman -Sy
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
-bootctl --esp-path=/mnt/boot install
 
 ##########################
 # Chroot nouveau systeme #
@@ -112,7 +111,7 @@ systemctl enable systemd-resolved.service
 systemctl start systemd-networkd.service
 systemctl start systemd-resolved.service
 
-bootctl install
+efibootmgr --create --disk /dev/"$disque"2 --part Y --loader '\EFI\systemd\systemd-bootx64.efi' --label "Linux Boot Manager" --unicode
 
 EOF
 
