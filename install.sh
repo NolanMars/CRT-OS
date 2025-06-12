@@ -111,13 +111,13 @@ systemctl enable systemd-resolved.service
 
 bootctl install
 
-cat > /boot/loader/loader.conf <<EOF
+cat << EOF >> /boot/loader/loader.conf
 default arch
 timeout 3
 editor 0
 EOF
 
-cat > /boot/loader/entries/arch.conf <<EOF
+cat << EOF >> boot/loader/entries/arch.conf
 title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /initramfs-linux.img
