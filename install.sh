@@ -98,7 +98,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo
+pacman -S --noconfirm nano sudo grub
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
@@ -109,20 +109,9 @@ echo "$HOSTNAME" > /etc/hostname
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
 
-bootctl install
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 
-cat << EOF > /boot/loader/loader.conf
-default arch
-timeout 3
-editor 0
-EOF
-
-cat << EOF > boot/loader/entries/arch.conf
-title   Arch Linux
-linux   /vmlinuz-linux
-initrd  /initramfs-linux.img
-options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/"$disque"2) rw
-EOF
+grub-mkconfig -o /boot/grub/grub.cfg
 
 EOF
 
