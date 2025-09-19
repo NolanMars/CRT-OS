@@ -7,7 +7,7 @@ NC='\033[0m'
 #############
 # Variables #
 #############
-VERSION="1.0"
+VERSION="1.1"
 LANGAGE=fr
 HOSTNAME="CRT-OS"
 USERNAME=guybrush
@@ -98,7 +98,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo grub
+pacman -S --noconfirm nano sudo
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
@@ -108,10 +108,6 @@ echo "KEYMAP=fr" > /etc/vconsole.conf
 echo "$HOSTNAME" > /etc/hostname
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
-
-grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
-
-grub-mkconfig -o /boot/grub/grub.cfg
-
+bootctl install
 EOF
 
