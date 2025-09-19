@@ -106,6 +106,7 @@ locale-gen
 echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
 echo "$HOSTNAME" > /etc/hostname
+echo $ROOTPASSWORD | passwd root --stdin
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
 bootctl install
