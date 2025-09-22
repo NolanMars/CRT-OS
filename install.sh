@@ -109,6 +109,6 @@ echo "$HOSTNAME" > /etc/hostname
 echo $ROOTPASSWORD | passwd root --stdin
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
-refind install
+refind-install
 EOF
 
