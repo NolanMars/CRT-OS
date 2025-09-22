@@ -91,14 +91,13 @@ fi
 mount /dev/"$disque"2 /mnt
 mount --mkdir /dev/"$disque"1 /mnt/boot
 pacman -Sy
-pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 
 ##########################
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo
+pacman -S --noconfirm base linux linux-firmware nano sudo
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
@@ -109,6 +108,7 @@ echo "$HOSTNAME" > /etc/hostname
 echo $ROOTPASSWORD | passwd root --stdin
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
+systemctl enable systemd-boot-update.service
 bootctl install --variables=yes
 EOF
 
