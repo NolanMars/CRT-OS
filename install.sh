@@ -98,7 +98,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Chroot nouveau systeme #
 ##########################
 arch-chroot /mnt /bin/bash <<EOF
-pacman -S --noconfirm nano sudo grub efibootmgr
+pacman -S --noconfirm nano sudo
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen
@@ -109,7 +109,6 @@ echo "$HOSTNAME" > /etc/hostname
 echo $ROOTPASSWORD | passwd root --stdin
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=boot
-grub-mkconfig -o /boot/grub/grub.cfg
+bootctl install
 EOF
 
